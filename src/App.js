@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { getIcon, getC } from "./utilities/helper";
 import ajax from "./utilities/ajax";
 import { cities } from "./constants/cities";
-import Loading from "./components/loading"
+import Loading from "./components/loading";
 
 function App() {
   const [city, setCity] = useState(cities[0]);
@@ -18,31 +18,32 @@ function App() {
 
   // post city name to backend to get weather information
   const fetchData = city => {
-    setLoadingCurrent(true)
-    setLoadingFiveDays(true)
+    setLoadingCurrent(true);
+    setLoadingFiveDays(true);
+    //TODO: deploy code and change localhost to real endpoint
     ajax({
       method: "get",
-      url: `http://127.0.0.1:8000/api/current_weather?country=au&city=${city}`
+      url: `http://localhost:8000/api/current_weather?country=au&city=${city}`
     })
       .then(res => res.data)
       .then(res => {
-    setCurrent(res);
-    setLoadingCurrent(false)
-  });
+        setCurrent(res);
+        setLoadingCurrent(false);
+      });
 
     ajax({
       method: "get",
-      url: `http://127.0.0.1:8000/api/weather?country=au&city=${city}`
+      url: `http://localhost:8000/api/weather?country=au&city=${city}`
     })
       .then(res => res.data)
       .then(res => {
-         setFiveDays(res);
-        setLoadingFiveDays(false)
+        setFiveDays(res);
+        setLoadingFiveDays(false);
       });
   };
 
   if (loadingCurrent || loadingFiveDays) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
@@ -50,6 +51,7 @@ function App() {
       <div className="flex flex-col items-center justify-center w-screen min-h-screen text-gray-700 p-10 bg-gradient-to-br from-indigo-600 to-blue-300 ">
         <select
           onChange={e => setCity(e.target.value)}
+          value={city}
           className="ring-8 ring-white ring-opacity-40 p-10 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md max-w-screen-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           {cities.map(city => {
