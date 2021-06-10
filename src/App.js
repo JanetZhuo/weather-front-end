@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { getIcon, getC } from "./utilities/helper";
 import ajax from "./utilities/ajax";
+import {cities} from './constants/cities'
 
 function App() {
-  const [cities] = useState(["sydney", "melbourne", "canberra", "brisbane"]);
+  const [city, setCity] = useState(cities[0])
   const [current, setCurrent] = useState({});
   const [fiveDays, setFiveDays] = useState({});
 
   useEffect(() => {
-    fetchData(cities[0]);
-  }, [cities]);
+    fetchData(city)
+  }, [city])
 
   // post city name to backend to get weather information
   const fetchData = city => {
@@ -33,15 +34,11 @@ function App() {
       });
   };
 
-  const search = event => {
-    console.log(event.target.value);
-  };
-
   return (
     <div className="App">
       <div className="flex flex-col items-center justify-center w-screen min-h-screen text-gray-700 p-10 bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200 ">
         <select
-          onChange={event => search(event)}
+          onChange={(e) => setCity(e.target.value)}
           className="ring-8 ring-white ring-opacity-40 p-10 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md max-w-screen-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           {cities.map(city => {
