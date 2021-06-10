@@ -4,6 +4,10 @@ import notify from './notify'
 export default function ajax (req) {
   return axios(req)
     .then(res => {
+      //info user city is not valid
+      if (res.data?.status === 0) {
+        notify(res.data?.message)
+      }
       return res.data
     })
     .catch(err => {
