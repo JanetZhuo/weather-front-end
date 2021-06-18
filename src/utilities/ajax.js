@@ -2,6 +2,7 @@ import axios from 'axios';
 import notify from './notify'
 
 export default function ajax (req) {
+  //TODO: add progress bar
   return axios(req)
     .then(res => {
       //info user city is not valid
